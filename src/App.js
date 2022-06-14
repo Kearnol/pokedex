@@ -15,6 +15,18 @@ import axios from 'axios';
 
 function App() {
   const [allPokemon, setAllPokemon] = useState([]);
+  const [searchString, setSearchString] = useState("");
+  const [typeFilter, setTypeFilter] = useState(new Set());
+  const [weaknessFilter, setWeaknessFilter] = useState(new Set());
+  const searchPkg = {
+    searchString,
+    setSearchString,
+    typeFilter, 
+    setTypeFilter,
+    weaknessFilter, 
+    setWeaknessFilter,
+  }
+
 
   //fetch all pokemon at the top level for all sub-components to share
   useEffect(() =>{
@@ -36,7 +48,7 @@ function App() {
       <Router>
         <Routes>
           <Route path={"/:num"} element={<ViewPokemonDetails allPokemon={allPokemon}/>} />
-          <Route strict path="/" element={<PokeTable allPokemon={allPokemon}/>} />
+          <Route strict path="/" element={<PokeTable allPokemon={allPokemon} searchPkg={searchPkg} />} />
         </Routes>
       </Router>
     </div>
