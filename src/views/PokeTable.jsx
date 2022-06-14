@@ -3,28 +3,23 @@ import Image from 'react-bootstrap/Image';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert'
+import Button from 'react-bootstrap/Button'
+import {Link} from 'react-router-dom'
 
 import axios from 'axios';
 const types = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost"];
 
 
-function PokeTable() {
+function PokeTable({allPokemon}) {
   const [pokemon, setPokemon] = useState([]);
-  const [allPokemon, setAllPokemon] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [typeFilter, setTypeFilter] = useState(new Set());
   const [weaknessFilter, setWeaknessFilter] = useState(new Set());
+  const [showFilters, setShowFilters] = useState(true);
 
   useEffect(() => {
-    axios.get('https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json')
-    .then(res => {
-      const {pokemon: returnedPokemon} = res.data;
-      console.log(returnedPokemon)
-      setAllPokemon(_ => returnedPokemon);
-      setPokemon(_=> returnedPokemon);
-    })
-    .catch(err => console.log(err));
-  },[])
+    setPokemon(allPokemon);
+  }, [allPokemon])
 
   const handleSearch = async (e) => {
     const {target} = e;
@@ -109,7 +104,6 @@ function PokeTable() {
 
 
   return (
-    
       <div className="body-container">
           <Form>
             <Form.Group controlId="PokedexSearchText">
@@ -117,40 +111,44 @@ function PokeTable() {
               <Form.Control type="text" style={{width: "50vw", margin: "auto"}} value={searchString} onChange={handleSearch}/>
               <Form.Text className="text-muted"> Search for Pokemon by name and filter by type and weakness.</Form.Text>
             </Form.Group>
-            <div className='d-flex justify-content-center'>
-              <Form.Group controlId="PokedexSearchTypes" style={{width: "200px"}} className="me-5">
-                <Form.Label className="fw-bold text-decoration-underline">Type Filters</Form.Label>
-                {types.map((type) => {
-                  return(
-                    <Form.Check
-                    type="checkbox"
-                    id={`TypeCheckBox_${type.toLowerCase()}`}
-                    label={type}
-                    value={type}
-                    checked={typeFilter.has(type)}
-                    style={{width:"100"}}
-                    onChange={handleSearch}
-                    />
-                    )
-                  })}
-              </Form.Group>
-              <Form.Group controlId="PokedexSearchWeaknesses" style={{width: "200px"}}>
-                <Form.Label className="fw-bold text-decoration-underline">Weakness Filters</Form.Label>
-                {types.map((type) => {
-                  return(
-                    <Form.Check
-                    type="checkbox"
-                    id={`WeaknessCheckbox_${type.toLowerCase()}`}
-                    label={type}
-                    value={type}
-                    checked={weaknessFilter.has(type)}
-                    style={{width:"100"}}
-                    onChange={handleSearch}
-                    />
-                    )
-                  })}
+              <Button variant="primary" className="my-2" onClick={() => {console.log("filters"); setShowFilters(state => !state)}}> Toggle Filters </Button>
+                {showFilters && (
+                <div className='d-flex justify-content-center'>
+                  <Form.Group controlId="PokedexSearchTypes" style={{width: "200px"}} className="me-5">
+                    <Form.Label className="fw-bold text-decoration-underline">Type Filters</Form.Label>
+                    {types.map((type) => {
+                      return(
+                        <Form.Check
+                        type="checkbox"
+                        id={`TypeCheckBox_${type.toLowerCase()}`}
+                        key={`TypeCheckBox_${type.toLowerCase()}`}
+                        label={type}
+                        value={type}
+                        checked={typeFilter.has(type)}
+                        style={{width:"100"}}
+                        onChange={handleSearch}
+                        />
+                        )
+                      })}
                   </Form.Group>
-              </div>
+                  <Form.Group controlId="PokedexSearchWeaknesses" style={{width: "200px"}}>
+                    <Form.Label className="fw-bold text-decoration-underline">Weakness Filters</Form.Label>
+                    {types.map((type) => {
+                      return(
+                        <Form.Check
+                        type="checkbox"
+                        id={`WeaknessCheckbox_${type.toLowerCase()}`}
+                        key={`WeaknessCheckbox_${type.toLowerCase()}`}
+                        label={type}
+                        value={type}
+                        checked={weaknessFilter.has(type)}
+                        style={{width:"100"}}
+                        onChange={handleSearch}
+                        />
+                        )
+                      })}
+                      </Form.Group>
+                  </div>)}
             </Form>
           
 
@@ -167,9 +165,16 @@ function PokeTable() {
               </thead>
               <tbody>
                 {pokemon.map((p) => {
-                  return(<tr className="align-middle">
-                    <td><Image src={p.img} thumbnail={true} /></td>
-                    <td>{p.name}</td>
+                  return(
+                  <tr className="align-middle" key={p.name}>
+                    <td>
+                        <Image src={p.img} thumbnail={true} />
+                    </td>
+                    <td>
+                      <Link to={p.num}>
+                        {p.name}
+                      </Link>
+                    </td>
                     <td>{p.num}</td>
                     <td>{p.type.map(t => (
                         <ul>{t}</ul>
