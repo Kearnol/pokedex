@@ -49,15 +49,14 @@ function PokeTable({allPokemon}) {
 
       // first, filter by search string if it exists
       if(searchString.length > 0){
-        console.log("searchString > 0");
         matchedPokemon = matchedPokemon.filter(p => p.name.toLowerCase().includes(searchString.toLowerCase()))
         }
       
       // second, filter by type, if any are selected. Otherwise don't add a type filter. 
       if (typeFilter.size > 0 ){
+
         // create an array from the set
         let typeArray = Array.from(typeFilter);
-        console.log("TA", typeArray)
         
         // filter matchedPokemon[] returning only pokemon who include every type in typeFilter
         // p - pokemon
@@ -65,9 +64,7 @@ function PokeTable({allPokemon}) {
         matchedPokemon = matchedPokemon.filter(p => {
           return typeArray.every(t => {
             if(p.type.indexOf(t) > -1){
-              console.log(`${p.name} has type ${t}`)
             }
-            else{console.log("Missed it")}
             return(p.type.includes(t));
           });
         })
@@ -80,24 +77,18 @@ function PokeTable({allPokemon}) {
         // create an array from the set to perform array methods
         let weaknessArray = Array.from(weaknessFilter);
         
-        // see what we're working with
-        console.log("WA", weaknessArray); 
-        
         // filter matchedPokemon[] returning only pokemon who include every weakness in weaknessFilter
         // p - pokemon
         // t - type in typeFilter
         matchedPokemon = matchedPokemon.filter(p => {
           return weaknessArray.every(w => {
-            if(p.weaknesses.includes(w)){
-              console.log(`${p.name} has weakness ${w}`)
-            }
             return(p.weaknesses.includes(w));
           });
         })
-        
         // see the filtered result
         console.log("matchedPokemnon::useEffect2", matchedPokemon)
     }
+
     // set Pokemon[] (state) to our filtered list. Pokemon[] renders the table items. 
     setPokemon(_ => matchedPokemon);
   }, [searchString, typeFilter, weaknessFilter])
@@ -111,7 +102,7 @@ function PokeTable({allPokemon}) {
               <Form.Control type="text" style={{width: "50vw", margin: "auto"}} value={searchString} onChange={handleSearch}/>
               <Form.Text className="text-muted"> Search for Pokemon by name and filter by type and weakness.</Form.Text>
             </Form.Group>
-              <Button variant="primary" className="my-2" onClick={() => {console.log("filters"); setShowFilters(state => !state)}}> Toggle Filters </Button>
+              <Button variant="primary" className="my-2" onClick={() => setShowFilters(state => !state)}> Toggle Filters </Button>
                 {showFilters && (
                 <div className='d-flex justify-content-center'>
                   <Form.Group controlId="PokedexSearchTypes" style={{width: "200px"}} className="me-5">

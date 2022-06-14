@@ -21,7 +21,6 @@ function App() {
     axios.get('https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json')
     .then(res => {
       const {pokemon: returnedPokemon} = res.data;
-      console.log(returnedPokemon)
       setAllPokemon(_ => returnedPokemon)
     })
     .catch(err => console.log(err));  

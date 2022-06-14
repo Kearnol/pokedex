@@ -6,7 +6,6 @@ import Table from 'react-bootstrap/Table';
 function ViewPokemonDetails({allPokemon}){
     const {num} = useParams()
     const [ pokemon ] = allPokemon.filter(p => p.num === num);
-    console.log(pokemon);
     let prevEvolution = pokemon?.prev_evolution ? pokemon.prev_evolution[pokemon.prev_evolution.length-1] : null;
     let nextEvolution = pokemon?.next_evolution ? pokemon.next_evolution[0]: null;
     
