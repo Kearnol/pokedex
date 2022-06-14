@@ -98,11 +98,11 @@ function PokeTable({allPokemon}) {
       <div className="body-container">
           <Form>
             <Form.Group controlId="PokedexSearchText">
-              <Form.Label>Search Count: {pokemon.length} </Form.Label>
+              <Form.Label>Pokemon matching Search: {pokemon.length} </Form.Label>
               <Form.Control type="text" style={{width: "50vw", margin: "auto"}} value={searchString} onChange={handleSearch}/>
               <Form.Text className="text-muted"> Search for Pokemon by name and filter by type and weakness.</Form.Text>
             </Form.Group>
-              <Button variant="primary" className="my-2" onClick={() => setShowFilters(state => !state)}> Toggle Filters </Button>
+              <Button variant="primary" className="my-2" onClick={() => setShowFilters(state => !state)}> Toggle Filter View </Button>
                 {showFilters && (
                 <div className='d-flex justify-content-center'>
                   <Form.Group controlId="PokedexSearchTypes" style={{width: "200px"}} className="me-5">
