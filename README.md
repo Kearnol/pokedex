@@ -6,12 +6,13 @@
 
 Then in the project directory, run:
 
-### `yarn` 
+`yarn` 
 
 to initialize dependencies, 🕓🎡 
 
 And
-### `yarn start` 
+
+`yarn start` 
 
 to get off the ground on port 3000 🚀
 
