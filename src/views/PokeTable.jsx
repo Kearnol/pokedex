@@ -10,11 +10,8 @@ import axios from 'axios';
 const types = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost"];
 
 
-function PokeTable({allPokemon}) {
+function PokeTable({allPokemon, searchPkg: {searchString, weaknessFilter, typeFilter, setSearchString, setWeaknessFilter, setTypeFilter}}) {
   const [pokemon, setPokemon] = useState([]);
-  const [searchString, setSearchString] = useState("");
-  const [typeFilter, setTypeFilter] = useState(new Set());
-  const [weaknessFilter, setWeaknessFilter] = useState(new Set());
   const [showFilters, setShowFilters] = useState(true);
 
   useEffect(() => {
