@@ -6,7 +6,6 @@ import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import {Link} from 'react-router-dom'
 
-import axios from 'axios';
 const types = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost"];
 
 
@@ -18,7 +17,7 @@ function PokeTable({allPokemon, searchPkg: {searchString, weaknessFilter, typeFi
     setPokemon(allPokemon);
   }, [allPokemon])
 
-  const handleSearch = async (e) => {
+  const handleSearch = (e) => {
     const {target} = e;
     const {value} = target;
     if(value === "" || value.length < 1){
@@ -55,13 +54,11 @@ function PokeTable({allPokemon, searchPkg: {searchString, weaknessFilter, typeFi
         // create an array from the set
         let typeArray = Array.from(typeFilter);
         
-        // filter matchedPokemon[] returning only pokemon who include every type in typeFilter
+        // filter matchedPokemon[] returning only pokemon who's type[] includes every type listed in typeFilter[]
         // p - pokemon
         // t - type in typeFilter
         matchedPokemon = matchedPokemon.filter(p => {
           return typeArray.every(t => {
-            if(p.type.indexOf(t) > -1){
-            }
             return(p.type.includes(t));
           });
         })
@@ -74,7 +71,7 @@ function PokeTable({allPokemon, searchPkg: {searchString, weaknessFilter, typeFi
         // create an array from the set to perform array methods
         let weaknessArray = Array.from(weaknessFilter);
         
-        // filter matchedPokemon[] returning only pokemon who include every weakness in weaknessFilter
+        // filter matchedPokemon[] returning only pokemon who's weaknesses[] include every weakness listed in weaknessFilter[]
         // p - pokemon
         // t - type in typeFilter
         matchedPokemon = matchedPokemon.filter(p => {
@@ -88,7 +85,7 @@ function PokeTable({allPokemon, searchPkg: {searchString, weaknessFilter, typeFi
 
     // set Pokemon[] (state) to our filtered list. Pokemon[] renders the table items. 
     setPokemon(_ => matchedPokemon);
-  }, [searchString, typeFilter, weaknessFilter])
+  }, [allPokemon,searchString, typeFilter, weaknessFilter])
 
 
   return (
